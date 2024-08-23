@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+# Getting Started with React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -13,11 +13,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ### `npm run build`
 
@@ -39,32 +34,48 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
+## Information
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### useState(initialState)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+useState es un Hook de React que permite agregar una variable de estado a tu componente.
 
-### Code Splitting
+#### Referencia
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Llama a useState en el nivel superior de tu componente para declarar una variable de estado. \
+Es buena idea tener múltiples variables de estado si no se encuentran relacionadas entre sí.
 
-### Analyzing the Bundle Size
+```react
+import { useState } from 'react';
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+function MyComponent() {
+  const [age, setAge] = useState(28);
+  const [name, setName] = useState('Taylor');
+  const [todos, setTodos] = useState(() => createTodos());
+```
 
-### Making a Progressive Web App
+La convención es nombrar variables de estado como `[algo, setAlgo]` usando desestructuración de arrays.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### useReducer(reducer, initialArg, init?)
 
-### Advanced Configuration
+useReducer es un Hook de React que te permite agregar un reducer a tu componente. Reduce la lógica en tus proyectos más complejos. \
+Los componentes con muchas actualizaciones de estado distribuidas a través de varios controladores de eventos pueden ser agobiantes. Para estos casos, puedes consolidar toda la lógica de actualización de estado fuera del componente en una única función, llamada reducer. \
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Parámetros:
 
-### Deployment
+- La función reductora que debe devolver el estado inicial. Debe tomar el estado y la acción como argumentos y debe devolver el siguiente estado.
+- El valor inicial del estado.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Devuelve:
 
-### `npm run build` fails to minify
+- El estado actual.
+- La función dispatch que permite actualizar el estado a un valor diferente y activar una nueva renderización.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```react
+const [state, dispatch] = useReducer(reducer, { age: 42 });
+
+function handleClick() {
+  dispatch({ type: 'incremented_age' });
+  // ...
+}
+```
