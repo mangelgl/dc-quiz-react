@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import Question from './Question';
-import { QuizContext } from './contexts/quiz';
+import { QuizContext } from '../contexts/quiz';
 
 const Quiz = () => {
 	const [quizState, dispatch] = useContext(QuizContext);
@@ -8,7 +8,10 @@ const Quiz = () => {
 	return (
 		<div className="quiz">
 			<div>
-				<div className="score">1/10</div>
+				<div className="score">
+					Question {quizState.currentQuestionIndex + 1} /{' '}
+					{quizState.questions.length}
+				</div>
 				<Question />
 				<div
 					className="next-button"

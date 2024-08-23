@@ -1,8 +1,9 @@
 import { createContext, useReducer } from 'react';
+import questions from '../data';
 
 const initialState = {
 	currentQuestionIndex: 0,
-	questions: [],
+	questions,
 };
 
 const reducer = (state, action) => {
@@ -13,7 +14,7 @@ const reducer = (state, action) => {
 		}
 
 		default:
-			return { ...state };
+			return state;
 	}
 };
 
