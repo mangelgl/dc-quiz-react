@@ -130,7 +130,7 @@ div {
 .answer,
 .score,
 .next-button {
-	border-radius: 15px;
+	border-radius: 10px;
 	overflow: hidden;
 }
 
