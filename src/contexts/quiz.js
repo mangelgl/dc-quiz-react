@@ -9,6 +9,7 @@ const initialState = {
 	answers: shuffleAnswers(questions[0]),
 	currentAnswer: '',
 	correctAnswersCount: 0,
+	showError: false,
 };
 
 const reducer = (state, action) => {
@@ -35,6 +36,12 @@ const reducer = (state, action) => {
 			const answers = showResults
 				? []
 				: shuffleAnswers(state.questions[currentQuestionIndex]);
+			const showError = !state.currentAnswer ? true : false;
+
+			if (showError) {
+				alert('Debe seleccionar una respuesta');
+				return state;
+			}
 
 			return {
 				...state,
@@ -42,6 +49,7 @@ const reducer = (state, action) => {
 				showResults,
 				answers,
 				currentAnswer: '',
+				showError,
 			};
 		}
 
@@ -58,5 +66,6 @@ export const QuizContext = createContext();
 
 export const QuizProvider = ({ children }) => {
 	const value = useReducer(reducer, initialState);
+
 	return <QuizContext.Provider value={value}>{children}</QuizContext.Provider>;
 };

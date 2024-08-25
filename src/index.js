@@ -12,7 +12,3 @@ root.render(
 	</QuizProvider>
 	// </React.StrictMode>
 );
-
-// React.StrictMode => show errors if something goes wrong
-// also render the app twice
-
