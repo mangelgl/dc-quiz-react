@@ -1,9 +1,20 @@
 import { useContext, useEffect } from 'react';
 import Question from './Question';
 import { QuizContext } from '../contexts/quiz';
+import { ToastContainer, toast, Bounce } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 const Quiz = () => {
 	const [quizState, dispatch] = useContext(QuizContext);
+	console.log('Quiz', quizState);
+
+	const notify = () => {
+		toast('You must select an answer', {
+			type: 'error',
+			theme: 'colored',
+			transition: Bounce,
+		});
+	};
 
 	const categoryFilter =
 		quizState.quizFilters.category !== 'any'
@@ -88,6 +99,15 @@ const Quiz = () => {
 						onClick={() => dispatch({ type: 'NEXT_QUESTION' })}>
 						Next question
 					</div>
+					{quizState.nextQuestionError && notify()}
+					<ToastContainer
+						autoClose={1000}
+						hideProgressBar={true}
+						limit={3}
+						pauseOnFocusLoss={false}
+						closeOnClick={false}
+						position="bottom-center"
+					/>
 				</div>
 			)}
 		</div>

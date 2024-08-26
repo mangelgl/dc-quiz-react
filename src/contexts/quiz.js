@@ -40,6 +40,7 @@ const reducer = (state, action) => {
 				...state,
 				currentAnswer: action.payload,
 				correctAnswersCount,
+				nextQuestionError: false,
 			};
 		}
 
@@ -52,7 +53,14 @@ const reducer = (state, action) => {
 			const answers = showResults
 				? []
 				: shuffleAnswers(state.questions[currentQuestionIndex]);
-			const nextQuestionError = !state.currentAnswer ? true : false;
+			const nextQuestionError = state.currentAnswer ? false : true;
+
+			if (nextQuestionError) {
+				return {
+					...state,
+					nextQuestionError,
+				};
+			}
 
 			return {
 				...state,
