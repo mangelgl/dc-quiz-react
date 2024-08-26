@@ -4,10 +4,27 @@ import { QuizContext } from '../contexts/quiz';
 
 const Quiz = () => {
 	const [quizState, dispatch] = useContext(QuizContext);
-	const apiUrl = 'https://opentdb.com/api.php?amount=10&encode=url3986';
+
+	const categoryFilter =
+		quizState.quizFilters.category !== 'any'
+			? `&category=${quizState.quizFilters.category}`
+			: '';
+	const typeFilter =
+		quizState.quizFilters.type !== 'any'
+			? `&type=${quizState.quizFilters.type}`
+			: '';
+	const difficultyFilter =
+		quizState.quizFilters.difficulty !== 'any'
+			? `&difficulty=${quizState.quizFilters.difficulty}`
+			: '';
+	const apiUrl = `https://opentdb.com/api.php?amount=10&encode=url3986${categoryFilter}${typeFilter}${difficultyFilter}`;
 
 	useEffect(() => {
-		if (quizState.questions.length > 0 || quizState.error) {
+		if (
+			quizState.questions.length > 0 ||
+			quizState.error ||
+			quizState.dataFetchError
+		) {
 			return;
 		}
 		fetch(apiUrl)
@@ -26,6 +43,19 @@ const Quiz = () => {
 					<div className="congratulations">Server error</div>
 					<div className="results-info">
 						<div>{quizState.error}</div>
+					</div>
+				</div>
+			)}
+			{quizState.dataFetchError && (
+				<div className="results">
+					<div className="congratulations">Data fetch error</div>
+					<div className="results-info">
+						<div>No data returned, try with distinct filters</div>
+					</div>
+					<div
+						className="next-button"
+						onClick={() => dispatch({ type: 'RESTART_QUIZ' })}>
+						BACK
 					</div>
 				</div>
 			)}

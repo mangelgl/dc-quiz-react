@@ -9,17 +9,24 @@ const initialState = {
 	currentAnswer: '',
 	correctAnswersCount: 0,
 	error: null,
-	showError: false,
+	nextQuestionError: false,
+	startQuiz: false,
+	quizFilters: [],
+	dataFetchError: false,
 };
 
 const reducer = (state, action) => {
 	switch (action.type) {
 		case 'LOADED_QUESTIONS': {
-			const normalizedQuestions = normalizeQuestions(action.payload);
+			const dataFetchError = action.payload.length === 0 ? true : false;
+			const normalizedQuestions = !dataFetchError
+				? normalizeQuestions(action.payload)
+				: [];
 			return {
 				...state,
 				questions: normalizedQuestions,
 				answers: shuffleAnswers(normalizedQuestions[0]),
+				dataFetchError,
 			};
 		}
 
@@ -45,12 +52,7 @@ const reducer = (state, action) => {
 			const answers = showResults
 				? []
 				: shuffleAnswers(state.questions[currentQuestionIndex]);
-			const showError = !state.currentAnswer ? true : false;
-
-			if (showError) {
-				alert('Debe seleccionar una respuesta');
-				return state;
-			}
+			const nextQuestionError = !state.currentAnswer ? true : false;
 
 			return {
 				...state,
@@ -58,7 +60,20 @@ const reducer = (state, action) => {
 				showResults,
 				answers,
 				currentAnswer: '',
-				showError,
+				nextQuestionError,
+			};
+		}
+
+		case 'START_QUIZ': {
+			const quizFilters = {
+				category: document.getElementById('trivia_category').value,
+				difficulty: document.getElementById('trivia_difficulty').value,
+				type: document.getElementById('trivia_type').value,
+			};
+			return {
+				...state,
+				startQuiz: true,
+				quizFilters,
 			};
 		}
 

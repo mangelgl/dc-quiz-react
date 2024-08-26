@@ -1,4 +1,7 @@
 export const shuffleAnswers = (question) => {
+	if (!question) {
+		return;
+	}
 	const unshuffledAnswers = [
 		question.correctAnswer,
 		...question.incorrectAnswers,
