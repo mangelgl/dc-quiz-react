@@ -6,7 +6,6 @@ import 'react-toastify/dist/ReactToastify.min.css';
 
 const Quiz = () => {
 	const [quizState, dispatch] = useContext(QuizContext);
-	console.log('Quiz', quizState);
 
 	const notify = () => {
 		toast('You must select an answer', {
